@@ -1,52 +1,34 @@
-# StreamLens — 60–90 second demo script
+# StreamLens — 60–90 second synthetic demo script
 
 ## Recording setup
-
-Run the local prototype in synthetic demo mode. Do not enter credentials. Keep the dashboard and browser address bar visible enough to establish that this is a local demo. Avoid showing any real account data.
+Run `python server.py` locally and open `http://127.0.0.1:8000`. Stay in synthetic demo mode; do not configure or enter credentials. Show no real account data.
 
 ## Voiceover and actions
 
-**0–10 seconds — The problem**
+**0–10 seconds — Problem**
+“Bot developers need to know not just the current account state, but what their WebSocket client actually received and whether frames were missed.”
 
-“Trading bots depend on account events arriving in the right order. A normal trading dashboard shows the current state, but it does not always show what the bot's WebSocket integration actually received.”
+**10–25 seconds — Snapshot lifecycle**
+Show the `hello`, `snapshot`, and `snapshot_end` frames.
+“StreamLens turns the account stream into a searchable event timeline and exposes snapshot/replay lifecycle details.”
 
-**10–25 seconds — The stream lifecycle**
+**25–40 seconds — Sequence gap**
+Click **Test gap detector**. Show the highlighted event and sequence-gap metric.
+“This control injects a synthetic sequence skip in demo mode so we can see the gap detector respond. It does not interact with any exchange or account.”
 
-Show the initial `hello`, account snapshot, and `snapshot_end` events.
-
-“StreamLens makes the account stream visible as a searchable timeline, including snapshots and subsequent account events.”
-
-**25–40 seconds — Sequence-gap demonstration**
-
-Click **Test gap detector**. Show the sequence-gap counter and highlighted event.
-
-“This demo-only action intentionally skips a synthetic sequence number, so developers can see how StreamLens surfaces a possible missed event.”
-
-**40–55 seconds — Inspect events**
-
-Filter to fills or positions. Select a row and show its JSON payload and diagnostic metadata.
-
-“You can filter the event types and inspect the exact JSON frame received by the local app.”
+**40–55 seconds — Inspect**
+Filter to fills or positions, select a row, and show the JSON payload.
+“Filter event types and inspect the payload and local diagnostics.”
 
 **55–70 seconds — Export**
-
-Click **Export scrubbed**. Do not open or share a real account export.
-
-“StreamLens can export a scrubbed JSONL log. Redaction is a safeguard, not a guarantee, so exports still need manual review before sharing.”
+Click **Export JSONL**. Do not share an export without manually checking it.
+“Export creates a JSONL file with common sensitive fields redacted. Redaction is best-effort; review the file before sharing.”
 
 **70–90 seconds — Safety and status**
-
-Show the demo/sandbox distinction and close with:
-
-“StreamLens is read-only. It does not place, edit, or cancel orders. The live connection is sandbox-only and uses a server-side test key. This recording demonstrates synthetic data; live sandbox behavior will only be claimed after testing with an approved test key.”
+“StreamLens is an independent, read-only prototype. It has no order placement or account-write routes. This recording uses fictional synthetic demo data. Live sandbox compatibility is a separate test and will only be claimed after an approved `fp_test_` credential has been used.”
 
 ## Recording checklist
-
-- [ ] Use synthetic demo data only.
-- [ ] Show the initial snapshot lifecycle.
-- [ ] Click **Test gap detector**.
-- [ ] Filter and inspect a fill or position.
-- [ ] Show the export control without sharing private data.
-- [ ] State clearly that this is demo mode.
-- [ ] Do not show API keys, account identifiers, or real activity.
-- [ ] Do not claim a verified live sandbox connection.
+- [ ] Synthetic demo only; no API keys or real account identifiers.
+- [ ] Show snapshot lifecycle, event filter, inspector, and **Test gap detector**.
+- [ ] State clearly that the sequence gap and all displayed account data are synthetic.
+- [ ] Do not imply verified live sandbox behavior or official affiliation.
