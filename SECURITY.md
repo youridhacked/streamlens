@@ -1,22 +1,23 @@
 # Security policy
 
-StreamLens is an unofficial, local-first, read-only observer for the MyFundedPerps sandbox account stream.
+StreamLens is an unofficial, local-first, read-only observer prototype for the MyFundedPerps sandbox account stream.
 
 ## Credential handling
-- Use only a sandbox credential beginning with `fp_test_`.
-- Set it through the local `FP_API_KEY` environment variable.
-- Never put credentials in browser code, browser storage, source control, screenshots, chat, or issue reports.
-- Live credentials beginning with `fp_live_` are intentionally rejected.
-- The upstream endpoint is fixed to the sandbox host.
+- Use only an approved sandbox credential with the `fp_test_` prefix.
+- Set it in the environment of the local Python server as `FP_API_KEY`.
+- Never place credentials in frontend code, source control, browser storage, screenshots, logs, recordings, or issue reports.
+- Do not use `fp_live_` credentials. The application intentionally refuses credentials without the sandbox prefix.
 
-## Network exposure
-- The local server binds to `127.0.0.1` by default.
-- Do not expose it to a public network or reverse proxy without a separate security review and authentication layer.
-- Local control routes enforce loopback and same-origin checks as defense in depth.
+## Network and permissions
+- The server defaults to binding to `127.0.0.1`; do not expose it publicly without a security review.
+- Local POST control routes accept loopback clients and same-origin requests only.
+- The only upstream WebSocket endpoint in the application is the sandbox account-stream endpoint.
+- StreamLens has no trading-write routes and must not be extended with trading actions under this project's read-only scope.
 
-## Data sharing
-- Raw event payloads may contain account identifiers or private activity.
-- JSONL export scrubs common identifiers and credential-like field names, but no automated redactor can guarantee removal of every sensitive value. Review exports manually before sharing.
+## Export handling
+- JSONL export redacts common credential fields and selected account identifiers.
+- Redaction is best-effort, not a privacy guarantee. Inspect exports manually before sharing.
+- Treat logs, screenshots, browser downloads, and crash reports as potentially sensitive.
 
 ## Reporting
-Do not include credentials or raw account payloads in public issues. Report security concerns with a minimal, redacted reproduction.
+Please do not publish credentials or private account data in an issue. Report suspected vulnerabilities privately to the repository maintainer.
