@@ -2,44 +2,34 @@
 
 **See every frame. Understand the stream.**
 
-StreamLens is an independent, read-only inspector for the MyFundedPerps sandbox account WebSocket. It turns account-stream frames into a searchable event timeline and surfaces sequence gaps, resync snapshots, replay completeness, heartbeats, reconnects, and ping/pong latency.
+StreamLens is an independent, read-only inspector concept and prototype for the MyFundedPerps sandbox account WebSocket. It is designed to turn account-stream frames into a searchable event timeline and surface sequence gaps, resync snapshots, replay completeness, heartbeats, reconnects, and ping/pong latency.
 
-> Unofficial community prototype. Not MyFundedPerps software and not affiliated with the firm.
+> Unofficial community project. Not MyFundedPerps software and not affiliated with the firm.
 
-## Download the complete source
+## What it is for
 
-The complete Python server, browser UI, stream manager, tests, GitHub Actions workflow, security policy, and application notes are in [`downloads/streamlens-hardened.zip`](downloads/streamlens-hardened.zip). Extract the archive; it contains the project under `streamlens/`.
+A developer building a bot, trade copier, or account-monitoring tool needs to know whether their integration received the account stream correctly. StreamLens is intended to make the raw event lifecycle visible so developers can debug synchronization problems before shipping an automation.
 
-## What it does
+## Intended capabilities
 
-- Runs a synthetic account-stream demo without credentials.
-- Can connect to the documented sandbox stream using an `fp_test_` key stored only in the local server environment.
-- Displays `hello`, snapshots, `snapshot_end`, orders, fills, positions, account events, heartbeats, and diagnostics.
-- Detects sequence gaps and shows resync/replay state.
-- Exports a scrubbed JSONL log; manually inspect every export before sharing.
+- Synthetic demo with fictional account data.
+- Sandbox-only account-stream observer using a server-side `fp_test_` key.
+- Timeline for snapshots, orders, fills, positions, account events, heartbeats, and diagnostics.
+- Sequence-gap, resync, replay, upstream-health, and reconnect diagnostics.
+- Scrubbed JSONL export with manual review required.
 
-## Safety
+## Safety boundaries
 
-- Fixed to the MyFundedPerps sandbox WebSocket endpoint.
-- Refuses `fp_live_` keys.
-- No order/position write routes or trading actions.
-- Server binds to `127.0.0.1` by default.
-- Demo account data is fictional.
+- Read-only: no order, cancel, close-position, or other trading-write routes.
+- Sandbox endpoint only; `fp_live_` credentials are refused.
+- Credentials stay in the local server environment, never browser code or source control.
+- Demo balances, fills, positions, and account IDs are fictional.
 
 ## Verification status
 
-The synthetic demo and local server were exercised in development. Python compilation passes and all 8 unit tests pass. Live sandbox authentication and real reconnect/resume behavior have **not** been verified with an approved `fp_test_` key. A browser smoke test could not be completed because local browser navigation was blocked in the development environment. We will update this status only after those checks are actually performed.
+The local prototype has been exercised in demo mode; Python compilation and 8 unit tests pass. A headless-browser smoke test could not be completed because local browser navigation was blocked in the development environment. Live sandbox authentication and real reconnect/resume behavior have **not** been verified with an approved `fp_test_` key.
 
-## Run
-
-```bash
-cd streamlens
-python3 server.py
-```
-
-Open `http://127.0.0.1:8000` and click **Test gap detector** to see the synthetic sequence-gap demonstration.
-
-For sandbox mode, install `requirements.txt`, set `FP_API_KEY` to an approved `fp_test_` key in the local environment, and run `python3 server.py`. Never put credentials in source control, chat, screenshots, or the browser.
+**Repository status:** this public repository currently contains the project overview, application draft, security policy, and license. The complete source tree still needs to be mirrored into the repository before this URL is used as a code-submission link. Do not submit this landing-page repository as if it already contains the full source.
 
 ## Official references
 
@@ -47,4 +37,4 @@ For sandbox mode, install `requirements.txt`, set `FP_API_KEY` to an approved `f
 - [Account streaming documentation](https://docs.myfundedperpetuals.com/account-streaming)
 - [Sandbox documentation](https://docs.myfundedperpetuals.com/sandbox)
 
-See [`APPLICATION.md`](APPLICATION.md) and [`SECURITY.md`](SECURITY.md) inside the source archive for submission notes and security guidance.
+See [APPLICATION.md](APPLICATION.md), [SECURITY.md](SECURITY.md), and [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
