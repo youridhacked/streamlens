@@ -289,6 +289,8 @@ class StreamManager:
                     break
                 with self.lock: self.state, self.last_error = "reconnecting", str(err)
                 self._publish_local("reconnecting",f"Stream interrupted; retrying with resume/backoff. {err}",tone="warning")
+                if getattr(err, 'status_code', None) in {429, 503}:
+                    backoff = max(backoff, 5.0)
                 delay = min(backoff,30.0)+random.uniform(0,min(.35,backoff/4))
                 if stop.wait(delay): break
                 backoff = min(backoff*2,30.0)
